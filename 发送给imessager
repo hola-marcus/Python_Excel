@@ -1,0 +1,16 @@
+on run {input, parameters}
+    -- 调用 Python 脚本获取 SQL 数据，并将结果发送给imessage收件人
+    set pythonScript to "/path/to/get_sql_data.py"  -- 替换为 Python 脚本的完整路径
+    set sqlData to do shell script "python3 " & pythonScript
+    
+    -- 发送 iMessage 给多个收件人
+    tell application "Messages"
+        -- 定义多个收件人
+        set targetBuddies to {"+1234567890", "+1987654321", "example@icloud.com"}  -- 替换为多个收件人号码或 Apple ID
+        
+        -- 循环发送消息
+        repeat with targetBuddy in targetBuddies
+            send sqlData to targetBuddy
+        end repeat
+    end tell
+end run
