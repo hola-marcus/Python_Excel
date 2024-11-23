@@ -1,0 +1,32 @@
+import pymysql
+import json
+
+# 数据库连接信息
+db_config = {
+    'host': 'your-database-host',    # 数据库主机地址
+    'user': 'your-username',         # 数据库用户名
+    'password': 'your-password',     # 数据库密码
+    'database': 'your-database'      # 数据库名称
+}
+
+# 连接到 MySQL 数据库
+connection = pymysql.connect(**db_config)
+
+try:
+    with connection.cursor() as cursor:
+        # 执行 SQL 查询
+        sql_query = "SELECT column1, column2 FROM your_table LIMIT 10"  # 替换为实际查询语句
+        cursor.execute(sql_query)
+        
+        # 获取查询结果
+        results = cursor.fetchall()
+        
+        # 将结果格式化为字符串或 JSON
+        data = [{"column1": row[0], "column2": row[1]} for row in results]  # 调整字段名以匹配实际结果
+        data_str = json.dumps(data)  # 将数据转换为 JSON 字符串
+    
+finally:
+    connection.close()
+
+# 打印查询结果，以便 AppleScript 调用
+print(data_str)
